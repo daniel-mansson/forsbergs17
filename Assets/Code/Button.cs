@@ -5,6 +5,7 @@ using UnityEngine;
 public class Button : MonoBehaviour
 {
 	public List<Interactable> m_targets;
+	bool m_isPlayerInside = false;
 
 	private void OnTriggerEnter(Collider other)
 	{
@@ -22,10 +23,9 @@ public class Button : MonoBehaviour
 		}
 	}
 
-	private void OnTriggerStay(Collider other)
+	private void Update()
 	{
-		//print(other.tag);
-		if (other.tag == "Player")
+		if (m_isPlayerInside)
 		{
 			if (Input.GetButtonDown("Jump"))
 			{
@@ -34,6 +34,31 @@ public class Button : MonoBehaviour
 					target.OnPressed();
 				}
 			}
+		}
+	}
+
+	private void FixedUpdate()
+	{
+		m_isPlayerInside = false;
+
+	}
+
+	private void OnTriggerStay(Collider other)
+	{
+		//print(other.tag);
+		if (other.tag == "Player")
+		{
+			m_isPlayerInside = true;
+		}
+	}
+
+	private void OnDrawGizmos()
+	{
+		Gizmos.color = Color.yellow;
+
+		foreach (var t in m_targets)
+		{
+			Gizmos.DrawLine(transform.position, t.transform.position);
 		}
 	}
 }
