@@ -1,45 +1,86 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OpenDoor : MonoBehaviour {
+public class OpenDoor : Interactable {
     public Vector3 closedPos;
     public Vector3 openPos;
 
     public float lerpTime = 1f;
     public bool IsOpen;
+	public bool IsLerping = false;
+	public bool m_defaultState;
 
     float currentLerpTime;
 
-    // Use this for initialization
-    void Start () {
-        
-    }
+    void Start ()
+	{
+		IsOpen = m_defaultState;
+
+		if (IsOpen)
+		{
+			transform.localPosition = openPos;
+		}
+		else
+		{
+			transform.localPosition = closedPos;
+		}
+
+		SetCableState(IsOpen);
+	}
 	
-	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
+		if (IsLerping == true)
+		{
+			//increment timer once per frame
+			currentLerpTime += Time.deltaTime;
+			if (currentLerpTime > lerpTime)
+			{
+				currentLerpTime = lerpTime;
+				IsLerping = false;
+			}
 
-        //increment timer once per frame
-        currentLerpTime += Time.deltaTime;
-        if (currentLerpTime > lerpTime) {
-            currentLerpTime = lerpTime;
-        }
+			//lerp!
+			float perc = currentLerpTime / lerpTime;
 
-        //lerp!
-        float perc = currentLerpTime / lerpTime;
-
-        if (IsOpen) {
-            transform.position = Vector3.Lerp(closedPos, openPos, perc);
-        } else {
-            transform.position = Vector3.Lerp(openPos, closedPos, perc);
-        }
+			if (IsOpen)
+			{
+				transform.localPosition = Vector3.Lerp(closedPos, openPos, perc);
+			}
+			else
+			{
+				transform.localPosition = Vector3.Lerp(openPos, closedPos, perc);
+			}
+		}
     }
     
  
-    public void Open() {
-        //transform.position = IsOpen ? closedPos : openPos;
-        IsOpen = !IsOpen;
-        
-        currentLerpTime = 0f;
-    }
+    public void ToggleOpen() {
+		//transform.position = IsOpen ? closedPos : openPos;
+		if (!IsLerping)
+		{
+			IsOpen = !IsOpen;
+			IsLerping = true;
+
+			currentLerpTime = 0f;
+			SetCableState(IsOpen);
+		}
+	}
+
+	public override void OnPressed()
+	{
+		ToggleOpen();
+	}
+
+	public override void OnEnter()
+	{
+		//Maybe turn on some indication
+	}
+
+	public override void OnExit()
+	{
+		//Maybe turn off some indication
+	}
 }

@@ -15,7 +15,7 @@ public class Switch : MonoBehaviour {
 	void Update () {
 		
 	}
-
+/*
     private void OnTriggerStay(Collider other) {
         print(other.tag);
         if (other.tag == "Player") {
@@ -24,4 +24,5 @@ public class Switch : MonoBehaviour {
             }
         }
     }
+	*/
 }
