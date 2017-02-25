@@ -51,4 +51,14 @@ public class Button : MonoBehaviour
 			m_isPlayerInside = true;
 		}
 	}
+
+	private void OnDrawGizmos()
+	{
+		Gizmos.color = Color.yellow;
+
+		foreach (var t in m_targets)
+		{
+			Gizmos.DrawLine(transform.position, t.transform.position);
+		}
+	}
 }

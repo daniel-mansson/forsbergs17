@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
     public float movementSpeed;
+    public float lampRotationSpeed;
+    public float lampRotationLimitMin;
+    public float lampRotationLimitMax;
+    public GameObject _headLight;
 
     private Rigidbody _rigidbody;
 
@@ -21,7 +25,16 @@ public class PlayerMovement : MonoBehaviour {
 
         _rigidbody.velocity = newVelocity;
 
-        transform.Rotate(0, Input.GetAxis("Right Horizontal") + Input.GetAxis("Mouse X"), 0);
+        float newXRot = _headLight.transform.rotation.eulerAngles.x + Input.GetAxis("Right Vertical") + Input.GetAxis("Mouse Y") * lampRotationSpeed * Time.deltaTime;
+        if (newXRot < lampRotationLimitMin) {
+            newXRot = lampRotationLimitMin;
+        } else if (newXRot > lampRotationLimitMax) {
+            newXRot = lampRotationLimitMax;
+        }
+
+        float newYRot = _headLight.transform.rotation.eulerAngles.y + Input.GetAxis("Right Horizontal") + Input.GetAxis("Mouse X") * lampRotationSpeed * Time.deltaTime;
+
+        _headLight.transform.rotation = Quaternion.Euler(newXRot, newYRot, 0);
     }
 
     void FixedUpdate() {
