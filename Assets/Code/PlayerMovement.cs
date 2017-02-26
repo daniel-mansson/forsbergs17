@@ -52,7 +52,13 @@ public class PlayerMovement : MonoBehaviour {
         _headLight.transform.rotation = Quaternion.Euler(newXRot, newYRot, 0);
     }
 
-    void FixedUpdate() {
-        
+    private void OnCollisionEnter(Collision collision) {
+        if (collision.gameObject.tag == "Monster") {
+            Kill();
+        }
+    }
+
+    void Kill() {
+        Destroy(this.gameObject);
     }
 }
