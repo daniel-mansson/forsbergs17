@@ -27,7 +27,8 @@ public class ToggleLight : Interactable
 		m_state = !m_state;
 		foreach (var light in m_lights)
 		{
-			light.enabled = m_state;
+            gameObject.SetActive(m_state);
+			//light.enabled = m_state;
 		}
 
 		SetCableState(m_state);
@@ -39,8 +40,8 @@ public class ToggleLight : Interactable
 	{
 		foreach (var light in m_lights)
 		{
-			light.enabled = m_state;
-		}
+            gameObject.SetActive(m_state);
+        }
 
 		SetCableState(m_state);
 	}

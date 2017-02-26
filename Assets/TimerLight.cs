@@ -17,8 +17,8 @@ public class TimerLight : Interactable
 		SetCableState(false);
 		foreach (var light in m_lights)
 		{
-			light.enabled = false;
-		}	
+            gameObject.SetActive(false);
+        }	
 	}
 	
 	void Update ()
@@ -37,8 +37,8 @@ public class TimerLight : Interactable
 				SetCableState(false);
 				foreach (var light in m_lights)
 				{
-					light.enabled = false;
-				}
+                    gameObject.SetActive(false);
+                }
 			}
 		}	
 	}
@@ -52,8 +52,8 @@ public class TimerLight : Interactable
 		SetCableState(true);
 		foreach (var light in m_lights)
 		{
-			light.enabled = true;
-			startIntensity = light.intensity;
+            gameObject.SetActive(true);
+            startIntensity = light.intensity;
 		}
 	}
 
