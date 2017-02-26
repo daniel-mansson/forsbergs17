@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour {
     public float lampRotationLimitMin;
     public float lampRotationLimitMax;
     public GameObject _headLight;
+	public Transform m_robotBody;
 
     private Rigidbody _rigidbody;
 
@@ -22,8 +23,14 @@ public class PlayerMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //_rigidbody.velocity = new Vector3(Input.GetAxis("Horizontal") * movementSpeed * Time.deltaTime, _rigidbody.velocity.y, Input.GetAxis("Vertical") * movementSpeed * Time.deltaTime);
+		//_rigidbody.velocity = new Vector3(Input.GetAxis("Horizontal") * movementSpeed * Time.deltaTime, _rigidbody.velocity.y, Input.GetAxis("Vertical") * movementSpeed * Time.deltaTime);
 
+		Vector3 dir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+		if (dir.magnitude > 0.1f)
+		{
+			var look = Quaternion.LookRotation(dir.normalized);
+			m_robotBody.rotation = Quaternion.RotateTowards(m_robotBody.rotation, look, Time.deltaTime * 180f);
+		}
         
         Vector3 newVelocity = new Vector3(
 			Input.GetAxis("Horizontal") * movementSpeed, _rigidbody.velocity.y, 
