@@ -5,8 +5,10 @@ using UnityEngine.AI;
 
 public class MonsterMovement : MonoBehaviour {
     public Transform _target;
+    public Vector3 _startPos;
     public float maxSpeed;
     public bool inLight;
+    public float maxHealth;
     public float health;
     public float lightDamage;
     public float aggroDistance;
@@ -18,7 +20,10 @@ public class MonsterMovement : MonoBehaviour {
     // Use this for initialization
     void Start() {
         agent = GetComponent<NavMeshAgent>();
+        _target = GameObject.FindGameObjectWithTag("Player").transform;
         agent.speed = maxSpeed;
+        _startPos = transform.position;
+        health = maxHealth;
     }
 
     // Update is called once per frame
@@ -29,7 +34,7 @@ public class MonsterMovement : MonoBehaviour {
         agent.CalculatePath(_target.position, path);
 
         if (path.status != NavMeshPathStatus.PathComplete) {
-            agent.SetDestination(transform.position);
+            agent.SetDestination(_startPos);
         } else {
             agent.SetDestination(_target.position);
         }
@@ -37,7 +42,7 @@ public class MonsterMovement : MonoBehaviour {
         distance = Vector3.Distance(this.transform.position, _target.position);
 
         if (distance > aggroDistance) {
-            agent.SetDestination(transform.position);
+            agent.SetDestination(_startPos);
         }
         
 
@@ -45,6 +50,11 @@ public class MonsterMovement : MonoBehaviour {
             health -= lightDamage;
             if (health <= 0) {
                 Kill();
+            }
+        } else {
+            health += lightDamage;
+            if (health > maxHealth) {
+                health = maxHealth;
             }
         }
     }
