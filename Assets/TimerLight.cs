@@ -9,6 +9,7 @@ public class TimerLight : Interactable
 	bool m_state;
 	public float m_time = 5f;
 
+	float startIntensity;
 	float m_timer = 0;
 
 	void Start ()
@@ -26,7 +27,12 @@ public class TimerLight : Interactable
 		{
 			m_timer -= Time.deltaTime;
 
-			if (m_timer < 0f)
+			foreach (var light in m_lights)
+			{
+				light.intensity = startIntensity * UnityEngine.Random.Range(0.8f, 1.2f);
+			}
+
+				if (m_timer < 0f)
 			{
 				SetCableState(false);
 				foreach (var light in m_lights)
@@ -41,10 +47,13 @@ public class TimerLight : Interactable
 	{
 		m_timer = m_time;
 
+		AudioManager.Play("flicker", transform.position, 0.2f);
+
 		SetCableState(true);
 		foreach (var light in m_lights)
 		{
 			light.enabled = true;
+			startIntensity = light.intensity;
 		}
 	}
 

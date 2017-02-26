@@ -305,7 +305,7 @@ MonoBehaviour:
   m_offMat: {fileID: 2100000, guid: 9c72023678e5af84d9d2cfcfb318b46c, type: 2}
   closedPos: {x: 0, y: 0, z: 0}
   openPos: {x: 0, y: -3.28, z: 0}
-  lerpTime: 1
+  lerpTime: 0.7
   IsOpen: 0
   IsLerping: 0
   m_defaultState: 0

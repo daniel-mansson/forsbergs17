@@ -11,6 +11,10 @@ public class PlayerMovement : MonoBehaviour {
 
     private Rigidbody _rigidbody;
 
+	public float m_soundFreq = 0.1f;
+	public float m_soundVolume = 0.1f;
+	float m_timeSinceLastSound = 0f;
+
 	// Use this for initialization
 	void Start () {
         _rigidbody = GetComponent<Rigidbody>();
@@ -21,9 +25,20 @@ public class PlayerMovement : MonoBehaviour {
         //_rigidbody.velocity = new Vector3(Input.GetAxis("Horizontal") * movementSpeed * Time.deltaTime, _rigidbody.velocity.y, Input.GetAxis("Vertical") * movementSpeed * Time.deltaTime);
 
         
-        Vector3 newVelocity = new Vector3(Input.GetAxis("Horizontal") * movementSpeed * Time.deltaTime, _rigidbody.velocity.y, Input.GetAxis("Vertical") * movementSpeed * Time.deltaTime);
+        Vector3 newVelocity = new Vector3(
+			Input.GetAxis("Horizontal") * movementSpeed, _rigidbody.velocity.y, 
+			Input.GetAxis("Vertical") * movementSpeed);
 
         _rigidbody.velocity = newVelocity;
+
+		m_timeSinceLastSound += Time.deltaTime;
+		if (m_timeSinceLastSound > m_soundFreq)
+		{
+			float v = newVelocity.magnitude * m_soundVolume;
+			AudioManager.Play("playermove", transform.position, v);
+
+			m_timeSinceLastSound -= m_soundFreq;
+		}
 
         float newXRot = _headLight.transform.rotation.eulerAngles.x + Input.GetAxis("Right Vertical") + Input.GetAxis("Mouse Y") * lampRotationSpeed * Time.deltaTime;
         if (newXRot < lampRotationLimitMin) {
