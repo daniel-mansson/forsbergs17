@@ -97,7 +97,7 @@ public class AudioManager : MonoBehaviour
 			src.PlayOneShot(clip, args.Volume);
 			dst.time = clip.length + 0.2f;
 
-			Debug.Log(args.Volume);
+		//	Debug.Log(args.Volume);
 
 			go.transform.position = args.Pos;
 		}
