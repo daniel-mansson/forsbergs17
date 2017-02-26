@@ -9,17 +9,20 @@ public class MonsterMovement : MonoBehaviour {
     public bool inLight;
     public float health;
     public float lightDamage;
+    public float aggroDistance;
+    public float distance;
 
     NavMeshAgent agent;
+    public ShadowScript shadow;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start() {
         agent = GetComponent<NavMeshAgent>();
         agent.speed = maxSpeed;
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    }
+
+    // Update is called once per frame
+    void Update() {
         agent.SetDestination(_target.position);
 
         NavMeshPath path = new NavMeshPath();
@@ -30,6 +33,13 @@ public class MonsterMovement : MonoBehaviour {
         } else {
             agent.SetDestination(_target.position);
         }
+
+        distance = Vector3.Distance(this.transform.position, _target.position);
+
+        if (distance > aggroDistance) {
+            agent.SetDestination(transform.position);
+        }
+        
 
         if (inLight) {
             health -= lightDamage;
@@ -49,6 +59,7 @@ public class MonsterMovement : MonoBehaviour {
         if (other.tag == "Light") {
             inLight = true;
             agent.speed = maxSpeed / 2;
+            shadow.setLightState(true);
         }
     }
 
@@ -56,6 +67,7 @@ public class MonsterMovement : MonoBehaviour {
         if (other.tag == "Light") {
             inLight = false;
             agent.speed = maxSpeed;
+            shadow.setLightState(false);
         }
     }
 }
