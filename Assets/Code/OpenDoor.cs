@@ -7,7 +7,7 @@ public class OpenDoor : Interactable {
     public Vector3 closedPos;
     public Vector3 openPos;
 
-    public float lerpTime = 1f;
+    public float lerpTime = 0.7f;
     public bool IsOpen;
 	public bool IsLerping = false;
 	public bool m_defaultState;
@@ -63,6 +63,15 @@ public class OpenDoor : Interactable {
 		{
 			IsOpen = !IsOpen;
 			IsLerping = true;
+
+			if (IsOpen)
+			{
+				AudioManager.Play("open", transform.position, 1f);
+			}
+			else
+			{
+				AudioManager.Play("close", transform.position, 1f);
+			}
 
 			currentLerpTime = 0f;
 			SetCableState(IsOpen);

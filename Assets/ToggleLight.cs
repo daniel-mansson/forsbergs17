@@ -31,6 +31,8 @@ public class ToggleLight : Interactable
 		}
 
 		SetCableState(m_state);
+
+		AudioManager.Play("switch", transform.position, 1f);
 	}
 
 	void Start ()

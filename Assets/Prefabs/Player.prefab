@@ -370,11 +370,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703bb60fbb0432448aac4802a53720f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 200
+  movementSpeed: 4
   lampRotationSpeed: 25
   lampRotationLimitMin: 10
   lampRotationLimitMax: 45
   _headLight: {fileID: 1064521003575606}
+  m_soundFreq: 0.1
+  m_soundVolume: 0.04
 --- !u!124 &124884996205938954
 Behaviour:
   m_ObjectHideFlags: 1
